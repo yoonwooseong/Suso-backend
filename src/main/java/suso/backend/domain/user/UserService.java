@@ -2,8 +2,7 @@ package suso.backend.domain.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import suso.backend.domain.user.dto.UserDto;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +16,6 @@ public class UserService {
 
     private User createNewUser(UserDto userDto){
         return User.builder()
-                .id(userDto.getId())
                 .userId(userDto.getUserId())
                 .name(userDto.getName())
                 .email(userDto.getEmail())

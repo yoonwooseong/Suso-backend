@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import suso.backend.domain.user.UserDto;
+import suso.backend.api.util.ApiUrl;
+import suso.backend.domain.user.dto.UserDto;
 import suso.backend.domain.user.UserResponse;
 import suso.backend.domain.user.UserService;
 
@@ -13,7 +14,7 @@ import suso.backend.domain.user.UserService;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/join")
+    @PostMapping(ApiUrl.USER_JOIN)
     public UserResponse join(@RequestBody UserDto userDto){
         return userService.saveUser(userDto);
     }
