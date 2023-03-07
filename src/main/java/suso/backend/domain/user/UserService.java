@@ -3,6 +3,7 @@ package suso.backend.domain.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import suso.backend.domain.user.dto.UserDto;
+import suso.backend.domain.user.dto.UserResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class UserService {
 
     private User createNewUser(UserDto userDto){
         return User.builder()
-                .userId(userDto.getUserId())
+                .username(userDto.getUsername())
                 .name(userDto.getName())
                 .email(userDto.getEmail())
                 .imageUrl(userDto.getImageUrl())

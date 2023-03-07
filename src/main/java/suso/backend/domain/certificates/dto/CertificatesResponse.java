@@ -1,4 +1,4 @@
-package suso.backend.domain.certificates;
+package suso.backend.domain.certificates.dto;
 
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +13,7 @@ public class CertificatesResponse {
     private Long id;
     private User user;
     private String title;
+    private String instructor;
     private String agency;
     private String imageUrl;
 

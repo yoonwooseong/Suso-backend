@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CertificatesUpdateDto {
-    private Long userId;
     private String title;
+    private String instructor;
     private String agency;
     private String imageUrl;
 

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import suso.backend.api.util.ApiUrl;
 import suso.backend.domain.user.dto.UserDto;
-import suso.backend.domain.user.UserResponse;
+import suso.backend.domain.user.dto.UserResponse;
 import suso.backend.domain.user.UserService;
 
 @RequiredArgsConstructor

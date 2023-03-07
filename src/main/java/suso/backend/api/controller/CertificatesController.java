@@ -3,7 +3,7 @@ package suso.backend.api.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import suso.backend.api.util.ApiUrl;
-import suso.backend.domain.certificates.CertificatesResponse;
+import suso.backend.domain.certificates.dto.CertificatesResponse;
 import suso.backend.domain.certificates.dto.CertificatesDto;
 import suso.backend.domain.certificates.CertificatesService;
 import suso.backend.domain.certificates.dto.CertificatesUpdateDto;

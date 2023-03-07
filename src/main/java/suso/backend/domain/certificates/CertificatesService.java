@@ -3,6 +3,7 @@ package suso.backend.domain.certificates;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import suso.backend.domain.certificates.dto.CertificatesDto;
+import suso.backend.domain.certificates.dto.CertificatesResponse;
 import suso.backend.domain.certificates.dto.CertificatesUpdateDto;
 import suso.backend.domain.user.User;
 import suso.backend.domain.user.UserRepository;
@@ -25,6 +26,7 @@ public class CertificatesService {
                 .id(certificatesDto.getId())
                 .user(createdUser)
                 .title(certificatesDto.getTitle())
+                .instructor(certificatesDto.getInstructor())
                 .agency(certificatesDto.getAgency())
                 .imageUrl(certificatesDto.getImageUrl())
                 .dateOfCompletion(certificatesDto.getDateOfCompletion())

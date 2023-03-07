@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import suso.backend.domain.user.dto.UserResponse;
 
 import javax.persistence.*;
 
@@ -17,10 +18,11 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "USER_ID")
     private Long id;
 
-    @Column(name = "USER_ID")
-    private String userId;
+    @Column
+    private String username;
 
     @Column
     private String name;
@@ -36,7 +38,7 @@ public class User {
 
     public UserResponse toResponse() {
         return UserResponse.builder()
-                .userId(this.userId)
+                .username(this.username)
                 .name(this.name)
                 .email(this.email)
                 .imageUrl(this.imageUrl)
