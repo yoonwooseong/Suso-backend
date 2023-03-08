@@ -3,7 +3,6 @@ package suso.backend.api.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import suso.backend.api.util.ApiUrl;
-import suso.backend.domain.certificates.dto.CertificatesResponse;
 import suso.backend.domain.certificates.dto.CertificatesDto;
 import suso.backend.domain.certificates.CertificatesService;
 import suso.backend.domain.certificates.dto.CertificatesUpdateDto;
@@ -14,8 +13,8 @@ public class CertificatesController {
     private final CertificatesService certificatesService;
 
     @GetMapping(ApiUrl.CERTIFICATES_SAVE)
-    public CertificatesResponse save(@RequestBody CertificatesDto certificatesDto){
-        return certificatesService.saveCertificates(certificatesDto);
+    public void save(@RequestBody CertificatesDto certificatesDto){
+        certificatesService.saveCertificates(certificatesDto);
     }
 
     @PostMapping(ApiUrl.CERTIFICATES_UPDATE)

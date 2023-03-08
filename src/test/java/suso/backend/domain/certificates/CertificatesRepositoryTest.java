@@ -3,8 +3,6 @@ package suso.backend.domain.certificates;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import suso.backend.domain.certificates.dto.CertificatesDto;
-import suso.backend.domain.certificates.dto.CertificatesUpdateDto;
 import suso.backend.domain.user.User;
 import suso.backend.domain.user.UserRepository;
 
@@ -62,7 +60,6 @@ class CertificatesRepositoryTest {
 
     private User createUser(){
         User user = User.builder()
-                .id(USER_ID)
                 .username(USERNAME)
                 .name(NAME)
                 .email(EMAIL)
@@ -75,7 +72,6 @@ class CertificatesRepositoryTest {
 
     private Certificates createCertificates(User user){
         Certificates certificates = Certificates.builder()
-                .id(CERTIFICATES_ID)
                 .user(user)
                 .title(CERTIFICATES_TITLE)
                 .agency(AGENCY)

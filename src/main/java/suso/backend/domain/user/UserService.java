@@ -2,11 +2,13 @@ package suso.backend.domain.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import suso.backend.domain.user.dto.UserDto;
 import suso.backend.domain.user.dto.UserResponse;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserRepository userRepository;

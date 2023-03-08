@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import suso.backend.domain.user.User;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -18,6 +18,7 @@ public class CertificatesDto {
     private String instructor;
     private String agency;
     private String imageUrl;
+    private List<String> hashtags;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfCompletion;
