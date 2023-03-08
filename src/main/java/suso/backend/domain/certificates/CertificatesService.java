@@ -14,6 +14,7 @@ import suso.backend.domain.user.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,17 +56,37 @@ public class CertificatesService {
     }
 
     private List<Hashtag> saveHashtag(CertificatesDto certificatesDto){
-        List<Hashtag> hashtagList = new ArrayList<>();
-        for (int i = 0; i < certificatesDto.getHashtags().size(); i++){
-            Hashtag hashtagEntity = hashtagRepository.findByTagName(certificatesDto.getHashtags().get(i)).orElse(
+        List<Hashtag> existTags = getExistTags(certificatesDto);
+        List<Hashtag> changedTags = getChangedTags(certificatesDto, existTags);
+
+        return hashtagRepository.saveAll(changedTags);
+    }
+
+    // select query를 보내는 횟수 최소화
+    private List<Hashtag> getExistTags(CertificatesDto certificatesDto){
+        return hashtagRepository.findByTagNames(certificatesDto.getHashtags());
+    }
+
+    private List<Hashtag> getChangedTags(CertificatesDto certificatesDto, List<Hashtag> existTags){
+        List<Hashtag> resultTags = new ArrayList<>();
+        List<String> addTags = certificatesDto.getHashtags();
+
+        for (int i = 0; i < addTags.size(); i++){
+            Hashtag existTag = null;
+            for(int j = 0; j < existTags.size(); j++){
+                if(existTags.get(j).getTagName().equals(addTags.get(i))){
+                    existTag = existTags.get(j);
+                }
+            }
+
+            Optional<Hashtag> resultTag = Optional.ofNullable(existTag);
+            resultTags.add(resultTag.orElse(
                     Hashtag.builder()
-                            .tagName(certificatesDto.getHashtags().get(i))
-                            .build()
-            );
-            hashtagList.add(hashtagEntity);
+                    .tagName(addTags.get(i))
+                    .build()));
         }
 
-        return hashtagRepository.saveAll(hashtagList);
+        return resultTags;
     }
 
     private void saveCertificatesHashtag(Certificates certificates, List<Hashtag> hashtagList){
