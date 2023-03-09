@@ -15,6 +15,8 @@ import suso.backend.domain.user.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -58,8 +60,11 @@ public class CertificatesService {
     private List<Hashtag> saveHashtag(CertificatesDto certificatesDto){
         List<Hashtag> existTags = getExistTags(certificatesDto);
         List<Hashtag> changedTags = getChangedTags(certificatesDto, existTags);
+        List<Hashtag> savedChangeTags = hashtagRepository.saveAll(changedTags);
 
-        return hashtagRepository.saveAll(changedTags);
+        List<Hashtag> resultHashTags = Stream.concat(existTags.stream(), savedChangeTags.stream()).collect(Collectors.toList());
+
+        return resultHashTags;
     }
 
     // select query를 보내는 횟수 최소화
@@ -67,6 +72,7 @@ public class CertificatesService {
         return hashtagRepository.findByTagNames(certificatesDto.getHashtags());
     }
 
+    // insert query를 보내는 횟수 최소화
     private List<Hashtag> getChangedTags(CertificatesDto certificatesDto, List<Hashtag> existTags){
         List<Hashtag> resultTags = new ArrayList<>();
         List<String> addTags = certificatesDto.getHashtags();
@@ -80,10 +86,11 @@ public class CertificatesService {
             }
 
             Optional<Hashtag> resultTag = Optional.ofNullable(existTag);
-            resultTags.add(resultTag.orElse(
-                    Hashtag.builder()
-                    .tagName(addTags.get(i))
-                    .build()));
+            if(resultTag.isEmpty()){
+                resultTags.add(
+                        Hashtag.builder().tagName(addTags.get(i)).build()
+                );
+            }
         }
 
         return resultTags;
