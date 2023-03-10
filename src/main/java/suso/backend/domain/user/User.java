@@ -1,9 +1,6 @@
 package suso.backend.domain.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import suso.backend.domain.user.dto.UserResponse;
 
 import javax.persistence.*;
@@ -11,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "USERS")
 public class User {

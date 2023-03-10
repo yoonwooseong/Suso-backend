@@ -59,26 +59,22 @@ class CertificatesRepositoryTest {
     }
 
     private User createUser(){
-        User user = User.builder()
+        return User.builder()
                 .username(USERNAME)
                 .name(NAME)
                 .email(EMAIL)
                 .imageUrl(IMAGE_URL)
                 .introduction(INTRODUCTION)
                 .build();
-
-        return user;
     }
 
     private Certificates createCertificates(User user){
-        Certificates certificates = Certificates.builder()
+        return Certificates.builder()
                 .user(user)
                 .title(CERTIFICATES_TITLE)
                 .agency(AGENCY)
                 .imageUrl(CERTIFICATES_IMAGE_URL)
                 .dateOfCompletion(DATE_COMPLETION)
                 .build();
-
-        return certificates;
     }
 }

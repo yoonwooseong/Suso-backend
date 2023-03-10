@@ -1,9 +1,6 @@
 package suso.backend.domain.hashtag;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import suso.backend.domain.certificatesHashtag.CertificatesHashtag;
 
 import javax.persistence.*;
@@ -13,7 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Hashtag {
     @Id
@@ -21,7 +18,7 @@ public class Hashtag {
     @Column(name = "HASHTAG_ID")
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String tagName;
 
     @OneToMany(mappedBy = "hashtag")

@@ -1,9 +1,6 @@
 package suso.backend.domain.certificatesHashtag;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import suso.backend.domain.certificates.Certificates;
 import suso.backend.domain.hashtag.Hashtag;
 
@@ -12,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class CertificatesHashtag {
     @Id
@@ -26,4 +23,5 @@ public class CertificatesHashtag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "HASHTAG_ID")
     private Hashtag hashtag;
+
 }
