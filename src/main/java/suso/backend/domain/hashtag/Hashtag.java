@@ -1,6 +1,7 @@
 package suso.backend.domain.hashtag;
 
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import suso.backend.domain.certificatesHashtag.CertificatesHashtag;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Hashtag {
     @Column(unique = true)
     private String tagName;
 
+    @BatchSize(size = 100)
     @OneToMany(mappedBy = "hashtag")
     private List<CertificatesHashtag> certificatesList = new ArrayList<>();
 }

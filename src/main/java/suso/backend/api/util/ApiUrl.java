@@ -12,5 +12,6 @@ public class ApiUrl {
 
     public static final String HASH_ROOT = "/hash";
     public static final String HASH_RANK = HASH_ROOT + "/rank";
+    public static final String HASH_CERTIFICATES = HASH_ROOT + "/certificates";
 
 }
