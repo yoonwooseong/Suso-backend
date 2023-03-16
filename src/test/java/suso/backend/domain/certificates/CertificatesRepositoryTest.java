@@ -60,7 +60,7 @@ class CertificatesRepositoryTest {
 
     private User createUser(){
         return User.builder()
-                .username(USERNAME)
+                .account(ACCOUNT)
                 .name(NAME)
                 .email(EMAIL)
                 .imageUrl(IMAGE_URL)

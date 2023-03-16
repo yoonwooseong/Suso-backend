@@ -93,7 +93,7 @@ class CertificatesServiceTest {
     private User createUser(){
         return User.builder()
                 .id(USER_ID)
-                .username(USERNAME)
+                .account(ACCOUNT)
                 .name(NAME)
                 .email(EMAIL)
                 .imageUrl(IMAGE_URL)

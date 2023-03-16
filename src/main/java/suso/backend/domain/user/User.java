@@ -18,8 +18,11 @@ public class User {
     @Column(name = "USER_ID")
     private Long id;
 
-    @Column
-    private String username;
+    @Column(unique = true, nullable = false)
+    private String account;
+
+    @Column(nullable = false)
+    private String password;
 
     @Column
     private String name;
@@ -33,13 +36,18 @@ public class User {
     @Column
     private String introduction;
 
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     public UserResponse toResponse() {
         return UserResponse.builder()
-                .username(this.username)
+                .account(this.account)
                 .name(this.name)
                 .email(this.email)
                 .imageUrl(this.imageUrl)
                 .introduction(this.introduction)
+                .role(this.role)
                 .build();
     }
 }
