@@ -1,5 +1,7 @@
 package suso.backend.domain.common;
 
+import suso.backend.domain.user.dto.UserRequest;
+
 public class UserFixture {
     public static final Long USER_ID = 1L;
     public static final String ACCOUNT = "testId";
@@ -9,4 +11,8 @@ public class UserFixture {
     public static final String IMAGE_URL = "https://ssl.pstatic.net/static/common/myarea/myInfo.gif";
     public static final String INTRODUCTION = "안녕하세요. 테스트입니다.";
 
+    public static final UserRequest LOGIN_USER_REQUEST = UserRequest.builder()
+            .account(ACCOUNT)
+            .password(PASSWORD)
+            .build();
 }
