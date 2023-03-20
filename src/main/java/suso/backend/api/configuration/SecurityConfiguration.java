@@ -44,10 +44,12 @@ public class SecurityConfiguration {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/join","/login").permitAll() // 해당 요청과 권한 허용
                 .antMatchers("/user/get").hasRole("USER")
                 .antMatchers("/certificates/**").permitAll()
                 .antMatchers("/hashtag/**").permitAll()
+                .antMatchers("/v3/api-docs", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                 .anyRequest().denyAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class) // JWT 인증 필터

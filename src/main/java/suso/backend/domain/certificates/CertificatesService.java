@@ -110,6 +110,7 @@ public class CertificatesService {
         certificatesHashtagRepository.saveAll(certificatesHashtagList);
     }
 
+    @Transactional
     public void updateCertificates(Long id, CertificatesUpdateDto certificatesUpdateDto){
         Certificates certificatesEntity = certificatesRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("id : " + id + " 수료증이 존재하지 않습니다."));
