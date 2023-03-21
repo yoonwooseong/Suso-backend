@@ -49,6 +49,7 @@ public class SecurityConfiguration {
                 .antMatchers("/user/get").hasRole("USER")
                 .antMatchers("/certificates/**").permitAll()
                 .antMatchers("/hashtag/**").permitAll()
+                .antMatchers("/image/**").permitAll()
                 .antMatchers("/v3/api-docs", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                 .anyRequest().denyAll()
                 .and()

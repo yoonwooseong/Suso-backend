@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Builder
 public class CertificatesResponse {
     private Long id;
-    private User user;
     private String title;
     private String instructor;
     private String agency;

@@ -1,5 +1,6 @@
 package suso.backend.domain.certificates;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import suso.backend.domain.certificates.dto.CertificatesResponse;
@@ -43,7 +44,7 @@ public class Certificates {
     @Column
     private String agency;
 
-    @Column
+    @Column(nullable = false)
     private String imageUrl;
 
     @Column
@@ -61,7 +62,6 @@ public class Certificates {
     public CertificatesResponse toResponse(){
         return CertificatesResponse.builder()
                 .id(this.id)
-                .user(this.user)
                 .title(this.title)
                 .instructor(this.instructor)
                 .agency(this.agency)

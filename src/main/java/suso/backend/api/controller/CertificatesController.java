@@ -16,13 +16,11 @@ import java.util.List;
 public class CertificatesController {
     private final CertificatesService certificatesService;
 
-//    @GetMapping(ApiUrl.CERTIFICATES)
-//    @ApiOperation(value = "수료증 전체 조회 API")
-//    public List<CertificatesResponse> getCertificates(@RequestParam Long id){
-//        certificatesService.findByUserId(id);
-//        return null;
-//    }
-
+    @GetMapping(ApiUrl.CERTIFICATES)
+    @ApiOperation(value = "수료증 전체 조회 API")
+    public List<CertificatesResponse> getCertificates(@RequestParam Long id){
+        return certificatesService.findAllByUserId(id);
+    }
 
     @PostMapping(ApiUrl.CERTIFICATES_SAVE)
     @ApiOperation(value = "수료증 저장 API")

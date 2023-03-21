@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import suso.backend.domain.certificates.dto.CertificatesDto;
+import suso.backend.domain.certificates.dto.CertificatesResponse;
 import suso.backend.domain.certificates.dto.CertificatesUpdateDto;
 import suso.backend.domain.certificatesHashtag.CertificatesHashtag;
 import suso.backend.domain.certificatesHashtag.CertificatesHashtagRepository;
@@ -29,6 +30,15 @@ public class CertificatesService {
     private final UserRepository userRepository;
     private final HashtagRepository hashtagRepository;
     private final CertificatesHashtagRepository certificatesHashtagRepository;
+
+    public List<CertificatesResponse> findAllByUserId(Long id){
+        List<CertificatesResponse> result = new ArrayList<>();
+        List<Certificates> allByUserId = certificatesRepository.findAllByUserId(id);
+        for (int i = 0; i < allByUserId.size(); i++){
+            result.add(allByUserId.get(i).toResponse());
+        }
+        return result;
+    }
 
     @Transactional
     public void saveCertificates(CertificatesDto certificatesDto){
