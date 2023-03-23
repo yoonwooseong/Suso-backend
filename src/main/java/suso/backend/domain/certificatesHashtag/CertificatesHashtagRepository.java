@@ -12,5 +12,5 @@ public interface CertificatesHashtagRepository extends JpaRepository<Certificate
             "select count(*) as count, HASHTAG_ID as hashtagId from Certificates_Hashtag as ch GROUP BY ch.HASHTAG_ID ORDER BY count DESC LIMIT 3;"
             , nativeQuery = true
     )
-    List<HashtagCountInterface> findHashtagRank();
+    List<HashtagCountInterface> findTop3HashtagRank();
 }

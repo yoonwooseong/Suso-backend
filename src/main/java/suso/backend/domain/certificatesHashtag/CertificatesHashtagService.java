@@ -16,8 +16,8 @@ public class CertificatesHashtagService {
 
     private final CertificatesHashtagRepository certificatesHashtagRepository;
 
-    public List<CertificatesHashtagRankResponse> findHashtagRank(){
-        List<HashtagCountInterface> hashtagCountList = certificatesHashtagRepository.findHashtagRank();
+    public List<CertificatesHashtagRankResponse> findTop3HashtagRank(){
+        List<HashtagCountInterface> hashtagCountList = certificatesHashtagRepository.findTop3HashtagRank();
 
         return toResponse(hashtagCountList);
     }

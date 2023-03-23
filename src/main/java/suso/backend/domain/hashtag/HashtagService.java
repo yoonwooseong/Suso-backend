@@ -1,6 +1,8 @@
 package suso.backend.domain.hashtag;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import suso.backend.domain.certificates.Certificates;
@@ -17,9 +19,11 @@ public class HashtagService {
 
     private final HashtagRepository hashtagRepository;
 
-    public List<HashtagResponse> findByTagName(String tagName){
+    public List<HashtagResponse> findByTagName(String tagName, int page, int size){
+        PageRequest pageRequest = PageRequest.of(page, size);
+
         List<HashtagResponse> result = new ArrayList<>();
-        List<CertificatesHashtag> byTagName = hashtagRepository.findByTagName(tagName);
+        List<CertificatesHashtag> byTagName = hashtagRepository.findByTagName(tagName, pageRequest);
 
         for (int i = 0; i < byTagName.size(); i++){
             result.add(HashtagResponse.builder()

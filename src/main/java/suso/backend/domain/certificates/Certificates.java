@@ -1,6 +1,5 @@
 package suso.backend.domain.certificates;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import suso.backend.domain.certificates.dto.CertificatesResponse;

@@ -18,7 +18,7 @@ public class HashtagController {
 
     @GetMapping(ApiUrl.HASH_CERTIFICATES)
     @ApiOperation(value = "해시태크 기준 수료증 목록 조회 API")
-    public List<HashtagResponse> findCertificateByTagName(@RequestParam String tagName){
-        return hashtagService.findByTagName(tagName);
+    public List<HashtagResponse> findCertificateByTagName(@RequestParam String tagName, @RequestParam int page, @RequestParam int size){
+        return hashtagService.findByTagName(tagName, page, size);
     };
 }

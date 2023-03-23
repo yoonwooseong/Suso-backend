@@ -48,6 +48,7 @@ public class SecurityConfiguration {
                 .antMatchers("/join","/login").permitAll() // 해당 요청과 권한 허용
                 .antMatchers("/user/get").hasRole("USER")
                 .antMatchers("/certificates/**").permitAll()
+                .antMatchers("/hash/**").permitAll()
                 .antMatchers("/hashtag/**").permitAll()
                 .antMatchers("/image/**").permitAll()
                 .antMatchers("/v3/api-docs", "/swagger-ui/**", "/swagger-resources/**").permitAll()

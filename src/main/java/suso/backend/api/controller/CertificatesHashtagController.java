@@ -17,7 +17,7 @@ public class CertificatesHashtagController {
 
     @GetMapping(ApiUrl.HASH_RANK)
     @ApiOperation(value = "인기 해시태크 조회 API")
-    public List<CertificatesHashtagRankResponse> rank(){
-        return certificatesHashtagService.findHashtagRank();
+    public List<CertificatesHashtagRankResponse> rankT0P3(){
+        return certificatesHashtagService.findTop3HashtagRank();
     }
 }
