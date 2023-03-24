@@ -3,6 +3,7 @@ package suso.backend.domain.certificates;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import suso.backend.domain.user.User;
 import suso.backend.domain.user.UserRepository;
 
@@ -19,6 +20,9 @@ class CertificatesRepositoryTest {
 
     @Autowired
     CertificatesRepository certificatesRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     UserRepository userRepository;
@@ -61,6 +65,7 @@ class CertificatesRepositoryTest {
     private User createUser(){
         return User.builder()
                 .account(ACCOUNT)
+                .password(passwordEncoder.encode(PASSWORD))
                 .name(NAME)
                 .email(EMAIL)
                 .imageUrl(IMAGE_URL)
@@ -72,6 +77,7 @@ class CertificatesRepositoryTest {
         return Certificates.builder()
                 .user(user)
                 .title(CERTIFICATES_TITLE)
+                .instructor(CERTIFICATES_INSTRUCTOR)
                 .agency(AGENCY)
                 .imageUrl(CERTIFICATES_IMAGE_URL)
                 .dateOfCompletion(DATE_COMPLETION)

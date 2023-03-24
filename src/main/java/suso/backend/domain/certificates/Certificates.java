@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import suso.backend.domain.certificates.dto.CertificatesResponse;
 import suso.backend.domain.certificates.dto.CertificatesUpdateDto;
 import suso.backend.domain.certificatesHashtag.CertificatesHashtag;
+import suso.backend.domain.common.BaseEntity;
 import suso.backend.domain.user.User;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Certificates {
+public class Certificates extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CERTIFICATES_ID")

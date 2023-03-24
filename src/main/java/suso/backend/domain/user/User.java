@@ -1,6 +1,7 @@
 package suso.backend.domain.user;
 
 import lombok.*;
+import suso.backend.domain.common.BaseEntity;
 import suso.backend.domain.user.dto.UserResponse;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "USERS")
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
