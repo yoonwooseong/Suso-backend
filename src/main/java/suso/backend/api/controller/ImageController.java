@@ -1,13 +1,16 @@
 package suso.backend.api.controller;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 import suso.backend.api.util.ApiUrl;
 import suso.backend.domain.image.ImageService;
 
+@ApiIgnore
 @RestController
 @RequiredArgsConstructor
 public class ImageController {

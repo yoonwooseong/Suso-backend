@@ -1,5 +1,6 @@
 package suso.backend.api.controller;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import suso.backend.domain.certificatesHashtag.dto.CertificatesHashtagRankRespon
 
 import java.util.List;
 
+@Api(tags = "수료증 해시태그 연관관계 api")
 @RequiredArgsConstructor
 @RestController
 public class CertificatesHashtagController {
