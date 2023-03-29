@@ -23,5 +23,5 @@ public class HashtagController {
     @ApiOperation(value = "해시태크 기준 수료증 목록 조회 API")
     public List<HashtagResponse> findCertificateByTagName(@ApiParam(value="해시태그명", required = true) @RequestParam String tagName, @ApiParam(value="현재 페이지", required = true) @RequestParam int page, @ApiParam(value="가져올 개수", required = true) @RequestParam int size){
         return hashtagService.findByTagName(tagName, page, size);
-    };
+    }
 }

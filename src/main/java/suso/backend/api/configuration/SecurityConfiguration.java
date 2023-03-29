@@ -14,6 +14,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.savedrequest.RequestCacheAwareFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -54,7 +55,7 @@ public class SecurityConfiguration {
                 .antMatchers("/v3/api-docs", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                 .anyRequest().denyAll()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class) // JWT 인증 필터
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), RequestCacheAwareFilter.class) // JWT 인증 필터
                 .exceptionHandling()
                 .authenticationEntryPoint(new AuthenticationEntryPoint() {
                     // 인증 문제
