@@ -3,6 +3,7 @@ package suso.backend.domain.certificates;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import suso.backend.domain.certificates.dto.CertificatesUpdateDto;
 import suso.backend.domain.certificatesHashtag.CertificatesHashtag;
 import suso.backend.domain.certificatesHashtag.CertificatesHashtagRepository;
@@ -13,6 +14,7 @@ import suso.backend.domain.user.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,6 +35,9 @@ class CertificatesServiceTest {
 
     @Autowired
     CertificatesHashtagRepository certificatesHashtagRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Test
     public void saveCertificate(){
@@ -94,6 +99,7 @@ class CertificatesServiceTest {
         return User.builder()
                 .id(USER_ID)
                 .account(ACCOUNT)
+                .password(passwordEncoder.encode(PASSWORD))
                 .name(NAME)
                 .email(EMAIL)
                 .imageUrl(IMAGE_URL)
@@ -102,14 +108,11 @@ class CertificatesServiceTest {
     }
 
     private List<Hashtag> createHashtag(){
-        List<Hashtag> resultHashEntityList = new ArrayList<>();
-        for (int i = 0; i < HASHTAG_EXAMPLE.size(); i++){
-            resultHashEntityList.add(Hashtag.builder()
-                    .tagName(HASHTAG_EXAMPLE.get(i))
-                    .build());
-        }
-
-        return resultHashEntityList;
+        return HASHTAG_EXAMPLE.stream()
+                .map(tagName -> Hashtag.builder()
+                .tagName(tagName)
+                .build())
+                .collect(Collectors.toList());
     }
 
     private List<Hashtag> updateHashtag(){
