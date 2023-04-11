@@ -1,5 +1,6 @@
 package suso.backend.domain.hashtag;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,6 +43,14 @@ class HashtagServiceTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @AfterEach
+    void afterEach(){
+        userRepository.deleteAll();
+        certificatesRepository.deleteAll();
+        hashtagRepository.deleteAll();
+        certificatesHashtagRepository.deleteAll();
+    }
 
     @Test
     public void findByTagName(){

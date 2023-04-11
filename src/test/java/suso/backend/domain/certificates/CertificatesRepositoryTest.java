@@ -1,11 +1,14 @@
 package suso.backend.domain.certificates;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import suso.backend.domain.user.User;
 import suso.backend.domain.user.UserRepository;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,6 +29,32 @@ class CertificatesRepositoryTest {
 
     @Autowired
     UserRepository userRepository;
+
+    @AfterEach
+    void afterEach(){
+
+    }
+
+    @Test
+    public void findAllByUserId(){
+        // given
+        User user = createUser();
+        User savedUser = userRepository.save(user);
+        Certificates firstCertificates = createCertificates(savedUser);
+        Certificates secondCertificates = createCertificates(savedUser);
+        certificatesRepository.save(firstCertificates);
+        certificatesRepository.save(secondCertificates);
+
+        // when
+        List<Certificates> allCertificatesByUserId = certificatesRepository.findAllByUserId(savedUser.getId());
+
+        // then
+        assertAll(
+                () -> assertThat(allCertificatesByUserId.size()).isEqualTo(2),
+                () -> assertThat(allCertificatesByUserId.get(0).getUser().getId()).isEqualTo(savedUser.getId()),
+                () -> assertThat(allCertificatesByUserId.get(1).getUser().getId()).isEqualTo(savedUser.getId())
+        );
+    }
 
     @Test
     public void saveCertificates(){

@@ -62,6 +62,7 @@ public class Certificates extends BaseEntity {
     public CertificatesResponse toResponse(){
         return CertificatesResponse.builder()
                 .id(this.id)
+                .userId(this.user.getId())
                 .title(this.title)
                 .instructor(this.instructor)
                 .agency(this.agency)

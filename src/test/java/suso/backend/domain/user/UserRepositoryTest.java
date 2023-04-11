@@ -1,5 +1,6 @@
 package suso.backend.domain.user;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,10 @@ class UserRepositoryTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @AfterEach
+    void afterEach(){
+        userRepository.deleteAll();
+    }
 
     @Test
     void join(){
@@ -36,7 +41,6 @@ class UserRepositoryTest {
                 () -> assertThat(savedUser.getImageUrl()).isEqualTo(createdUser.getImageUrl()),
                 () -> assertThat(savedUser.getIntroduction()).isEqualTo(createdUser.getIntroduction())
         );
-
     }
 
     private User createUser(){

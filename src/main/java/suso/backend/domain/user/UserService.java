@@ -18,6 +18,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
+    @Transactional
     public UserResponse saveUser(UserRequest userRequest){
         return userRepository.save(createNewUser(userRequest)).toResponse();
     }
