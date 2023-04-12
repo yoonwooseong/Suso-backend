@@ -52,7 +52,7 @@ public class SecurityConfiguration {
                 .antMatchers("/hash/**").permitAll()
                 .antMatchers("/hashtag/**").permitAll()
                 .antMatchers("/image/**").permitAll()
-                .antMatchers("/v3/api-docs", "/swagger-ui/**", "/swagger-resources/**").permitAll()
+                .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                 .anyRequest().denyAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), RequestCacheAwareFilter.class) // JWT 인증 필터
