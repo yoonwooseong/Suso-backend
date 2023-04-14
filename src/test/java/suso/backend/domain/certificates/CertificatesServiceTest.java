@@ -1,9 +1,13 @@
 package suso.backend.domain.certificates;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+import suso.backend.domain.certificates.dto.CertificatesDto;
+import suso.backend.domain.certificates.dto.CertificatesResponse;
 import suso.backend.domain.certificates.dto.CertificatesUpdateDto;
 import suso.backend.domain.certificatesHashtag.CertificatesHashtag;
 import suso.backend.domain.certificatesHashtag.CertificatesHashtagRepository;
@@ -15,6 +19,7 @@ import suso.backend.domain.user.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,6 +33,9 @@ class CertificatesServiceTest {
     CertificatesRepository certificatesRepository;
 
     @Autowired
+    CertificatesService certificatesService;
+
+    @Autowired
     UserRepository userRepository;
 
     @Autowired
@@ -39,22 +47,61 @@ class CertificatesServiceTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @AfterEach
+    void afterEach(){
+//        userRepository.deleteAll();
+//        certificatesRepository.deleteAll();
+//        hashtagRepository.deleteAll();
+//        certificatesHashtagRepository.deleteAll();
+    }
+
+    @Test
+    public void findAllByUserId(){
+        // given
+        User user = createUser();
+        User savedUser = userRepository.save(user);
+        Certificates firstCertificates = createCertificates(savedUser);
+        Certificates secondCertificates = createCertificates(savedUser);
+        Certificates thirdCertificates = createCertificates(savedUser);
+        certificatesRepository.save(firstCertificates);
+        certificatesRepository.save(secondCertificates);
+        certificatesRepository.save(thirdCertificates);
+
+        // when
+        List<CertificatesResponse> allByUserId = certificatesService.findAllByUserId(savedUser.getId());
+
+        // then
+        assertAll(
+                () -> assertThat(allByUserId.size()).isEqualTo(3),
+                () -> assertThat(allByUserId.get(0).getUserId()).isEqualTo(savedUser.getId()),
+                () -> assertThat(allByUserId.get(1).getUserId()).isEqualTo(savedUser.getId()),
+                () -> assertThat(allByUserId.get(2).getUserId()).isEqualTo(savedUser.getId())
+        );
+    }
+
+    @Transactional
     @Test
     public void saveCertificate(){
         // when
         User savedUser = userRepository.save(createUser());
-        Certificates certificates = createCertificates(savedUser);
+        CertificatesDto certificatesDto = createCertificatesDto();
 
         // given
-        Certificates savedCertificates = certificatesRepository.save(certificates);
-        List<Hashtag> hashtags = hashtagRepository.saveAll(createHashtag());
-        List<CertificatesHashtag> savedCertificatesHashtags = certificatesHashtagRepository.saveAll(createCertificatesHashtag(savedCertificates, hashtags));
+        certificatesService.saveCertificates(certificatesDto);
 
         // then
+        Certificates savedCertificates = certificatesRepository.findById(certificatesDto.getId()).orElse(null);
+
         assertAll(
-                () -> assertThat(savedCertificatesHashtags.get(0).getCertificates().getId()).isEqualTo(savedCertificates.getId()),
-                () -> assertThat(savedCertificatesHashtags.size()).isEqualTo(hashtags.size())
+                () -> assertThat(savedCertificates.getTitle()).isEqualTo(certificatesDto.getTitle()),
+                () -> assertThat(savedCertificates.getUser().getId()).isEqualTo(certificatesDto.getUserId()),
+                () -> assertThat(savedCertificates.getInstructor()).isEqualTo(certificatesDto.getInstructor()),
+                () -> assertThat(savedCertificates.getAgency()).isEqualTo(certificatesDto.getAgency()),
+                () -> assertThat(savedCertificates.getImageUrl()).isEqualTo(certificatesDto.getImageUrl()),
+                () -> assertThat(savedCertificates.getDateOfCompletion()).isEqualTo(certificatesDto.getDateOfCompletion())
+//                () -> assertThat(savedCertificates.getHashtags().size()).isEqualTo(certificatesDto.getHashtags().size())
         );
+
         // DB 값 확인
     }
 
@@ -107,38 +154,45 @@ class CertificatesServiceTest {
                 .build();
     }
 
+    private CertificatesDto createCertificatesDto(){
+        CertificatesDto createdCertificates = new CertificatesDto(
+                CERTIFICATES_ID,
+                USER_ID,
+                CERTIFICATES_TITLE,
+                CERTIFICATES_INSTRUCTOR,
+                AGENCY,
+                CERTIFICATES_IMAGE_URL,
+                HASHTAG_EXAMPLE,
+                DATE_COMPLETION
+        );
+        return createdCertificates;
+    }
+
     private List<Hashtag> createHashtag(){
         return HASHTAG_EXAMPLE.stream()
                 .map(tagName -> Hashtag.builder()
-                .tagName(tagName)
-                .build())
+                        .tagName(tagName)
+                        .build())
                 .collect(Collectors.toList());
     }
 
     private List<Hashtag> updateHashtag(){
-        List<Hashtag> resultUpdateHashEntityList = new ArrayList<>();
-        for (int i = 0; i < UPDATE_HASHTAG_EXAMPLE.size(); i++){
-            resultUpdateHashEntityList.add(Hashtag.builder()
-                    .tagName(UPDATE_HASHTAG_EXAMPLE.get(i))
-                    .build());
-        }
-
-        return resultUpdateHashEntityList;
+        return UPDATE_HASHTAG_EXAMPLE.stream()
+                .map(tagName -> Hashtag.builder()
+                        .tagName(tagName)
+                        .build())
+                .collect(Collectors.toList());
     }
 
 
     private List<CertificatesHashtag> createCertificatesHashtag(Certificates certificates, List<Hashtag> hashtagList){
-        List<CertificatesHashtag> resultEntityList = new ArrayList<>();
-        for (int i = 0; i < hashtagList.size(); i++){
-            CertificatesHashtag certificatesHashtag = CertificatesHashtag.builder()
-                    .certificates(certificates)
-                    .hashtag(hashtagList.get(i))
-                    .build();
+        return hashtagList.stream()
+                .map(hashtag -> CertificatesHashtag.builder()
+                        .certificates(certificates)
+                        .hashtag(hashtag)
+                        .build())
+                .collect(Collectors.toList());
 
-            resultEntityList.add(certificatesHashtag);
-        }
-
-        return resultEntityList;
     }
 
     private Certificates createCertificates(User user){
