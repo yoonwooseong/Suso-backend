@@ -8,6 +8,7 @@ import suso.backend.domain.certificatesHashtag.dto.HashtagCountInterface;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,16 +24,11 @@ public class CertificatesHashtagService {
     }
 
     private List<CertificatesHashtagRankResponse> toResponse(List<HashtagCountInterface> hashtagCountList){
-        List<CertificatesHashtagRankResponse> responseList = new ArrayList<>();
-        for(int i = 0; i < hashtagCountList.size(); i++){
-            CertificatesHashtagRankResponse certificatesHashtagRankResponse = CertificatesHashtagRankResponse.builder()
-                    .count(hashtagCountList.get(i).getCount())
-                    .hashtagId(hashtagCountList.get(i).getHashtagId())
-                    .build();
-
-            responseList.add(certificatesHashtagRankResponse);
-        }
-
-        return responseList;
+        return hashtagCountList.stream()
+                .map(hashtagCount -> CertificatesHashtagRankResponse.builder()
+                    .count(hashtagCount.getCount())
+                    .hashtagId(hashtagCount.getHashtagId())
+                    .build())
+                .collect(Collectors.toList());
     }
 }

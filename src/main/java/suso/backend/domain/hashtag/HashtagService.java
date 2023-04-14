@@ -11,6 +11,7 @@ import suso.backend.domain.hashtag.dto.HashtagResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,21 +23,17 @@ public class HashtagService {
     public List<HashtagResponse> findByTagName(String tagName, int page, int size){
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        List<HashtagResponse> result = new ArrayList<>();
-        List<CertificatesHashtag> byTagName = hashtagRepository.findByTagName(tagName, pageRequest);
-
-        for (int i = 0; i < byTagName.size(); i++){
-            result.add(HashtagResponse.builder()
-                    .hashtagId(byTagName.get(i).getHashtag().getId())
-                    .certificatesId(byTagName.get(i).getCertificates().getId())
-                    .certificatesTitle(byTagName.get(i).getCertificates().getTitle())
-                    .certificatesAgency(byTagName.get(i).getCertificates().getAgency())
-                    .certificatesImage(byTagName.get(i).getCertificates().getImageUrl())
-                    .certificatesInstructor(byTagName.get(i).getCertificates().getInstructor())
-                    .build());
-        }
-
-        return result;
+        return hashtagRepository.findByTagName(tagName, pageRequest)
+                .stream()
+                .map(certificatesHashtag -> HashtagResponse.builder()
+                        .hashtagId(certificatesHashtag.getHashtag().getId())
+                        .certificatesId(certificatesHashtag.getCertificates().getId())
+                        .certificatesTitle(certificatesHashtag.getCertificates().getTitle())
+                        .certificatesAgency(certificatesHashtag.getCertificates().getAgency())
+                        .certificatesImage(certificatesHashtag.getCertificates().getImageUrl())
+                        .certificatesInstructor(certificatesHashtag.getCertificates().getInstructor())
+                        .build())
+                .collect(Collectors.toList());
     }
 
 }

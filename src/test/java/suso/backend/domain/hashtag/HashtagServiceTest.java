@@ -15,6 +15,7 @@ import suso.backend.domain.user.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -97,27 +98,17 @@ class HashtagServiceTest {
     }
 
     private List<Hashtag> createHashtag(){
-        List<Hashtag> resultHashEntityList = new ArrayList<>();
-        for (int i = 0; i < HASHTAG_EXAMPLE.size(); i++){
-            resultHashEntityList.add(Hashtag.builder()
-                    .tagName(HASHTAG_EXAMPLE.get(i))
-                    .build());
-        }
-
-        return resultHashEntityList;
+        return HASHTAG_EXAMPLE.stream()
+                .map(tagName -> Hashtag.builder().tagName(tagName).build())
+                .collect(Collectors.toList());
     }
 
     private List<CertificatesHashtag> createCertificatesHashtag(Certificates certificates, List<Hashtag> hashtagList){
-        List<CertificatesHashtag> resultEntityList = new ArrayList<>();
-        for (int i = 0; i < hashtagList.size(); i++){
-            CertificatesHashtag certificatesHashtag = CertificatesHashtag.builder()
-                    .certificates(certificates)
-                    .hashtag(hashtagList.get(i))
-                    .build();
-
-            resultEntityList.add(certificatesHashtag);
-        }
-
-        return resultEntityList;
+        return hashtagList.stream()
+                .map(hashtag -> CertificatesHashtag.builder()
+                        .certificates(certificates)
+                        .hashtag(hashtag)
+                        .build())
+                .collect(Collectors.toList());
     }
 }

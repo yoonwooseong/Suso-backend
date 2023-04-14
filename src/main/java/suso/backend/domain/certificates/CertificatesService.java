@@ -32,12 +32,10 @@ public class CertificatesService {
     private final CertificatesHashtagRepository certificatesHashtagRepository;
 
     public List<CertificatesResponse> findAllByUserId(Long id){
-        List<CertificatesResponse> result = new ArrayList<>();
-        List<Certificates> allByUserId = certificatesRepository.findAllByUserId(id);
-        for (int i = 0; i < allByUserId.size(); i++){
-            result.add(allByUserId.get(i).toResponse());
-        }
-        return result;
+        return certificatesRepository.findAllByUserId(id)
+                .stream()
+                .map(certificates -> certificates.toResponse())
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -84,41 +82,25 @@ public class CertificatesService {
 
     // insert query를 보내는 횟수 최소화
     private List<Hashtag> getChangedTags(CertificatesDto certificatesDto, List<Hashtag> existTags){
-        List<Hashtag> resultTags = new ArrayList<>();
         List<String> addTags = certificatesDto.getHashtags();
 
-        for (int i = 0; i < addTags.size(); i++){
-            Hashtag existTag = null;
-            for(int j = 0; j < existTags.size(); j++){
-                if(existTags.get(j).getTagName().equals(addTags.get(i))){
-                    existTag = existTags.get(j);
-                }
-            }
-
-            Optional<Hashtag> resultTag = Optional.ofNullable(existTag);
-            if(resultTag.isEmpty()){
-                resultTags.add(
-                        Hashtag.builder().tagName(addTags.get(i)).build()
-                );
-            }
-        }
+        List<Hashtag> resultTags = addTags.stream()
+                .filter(tagName -> existTags.stream().noneMatch(tag -> tag.getTagName().equals(tagName)))
+                .map(tagName -> Hashtag.builder().tagName(tagName).build())
+                .collect(Collectors.toList());
 
         return resultTags;
     }
 
     private void saveCertificatesHashtag(Certificates certificates, List<Hashtag> hashtagList){
-        List<CertificatesHashtag> certificatesHashtagList = new ArrayList<>();
-        for (int i = 0; i < hashtagList.size(); i++){
-            CertificatesHashtag certificatesHashtag = CertificatesHashtag.builder()
-                    .certificates(certificates)
-                    .hashtag(hashtagList.get(i))
-                    .build();
 
-            certificatesHashtagList.add(certificatesHashtag);
-        }
+        List<CertificatesHashtag> certificatesHashtagList = hashtagList.stream()
+                .map(hashtag -> CertificatesHashtag.builder().certificates(certificates).hashtag(hashtag).build())
+                .collect(Collectors.toList());
 
         certificatesHashtagRepository.saveAll(certificatesHashtagList);
     }
+
 
     @Transactional
     public void updateCertificates(Long id, CertificatesUpdateDto certificatesUpdateDto){
