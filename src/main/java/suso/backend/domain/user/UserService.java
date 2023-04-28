@@ -9,6 +9,8 @@ import suso.backend.api.security.JwtProvider;
 import suso.backend.domain.user.dto.UserRequest;
 import suso.backend.domain.user.dto.UserResponse;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -60,5 +62,9 @@ public class UserService {
                 .introduction(userRequest.getIntroduction())
                 .role(Role.USER)
                 .build();
+    }
+
+    public Boolean isDuplicate(String account) {
+        return userRepository.findByAccount(account).isPresent();
     }
 }

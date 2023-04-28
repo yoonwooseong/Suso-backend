@@ -45,8 +45,9 @@ public class SecurityConfiguration {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/join","/login").permitAll() // 해당 요청과 권한 허용
+                .antMatchers("/","/hello").permitAll()  // 해당 요청과 권한 허용
+                .antMatchers("/join","/login").permitAll()
+                .antMatchers("/user/duplicate").permitAll()
                 .antMatchers("/user/get").hasRole("USER")
                 .antMatchers("/certificates/**").permitAll()
                 .antMatchers("/hash/**").permitAll()
@@ -85,7 +86,8 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:8081"));
+        configuration.setAllowedOrigins(List.of("http://localhost:8081", "http://localhost:8080"));
+
 //        configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Cache-control", "Content-Type", "X-PINGOTHER"));

@@ -22,6 +22,12 @@ public class UserController {
         return userService.saveUser(userRequest);
     }
 
+    @PostMapping(ApiUrl.USER_DUPLICATE_ID)
+    @ApiOperation(value = "중복확인 API")
+    public Boolean duplicateId(@ApiParam(value="아이디", required = true) @RequestBody String account){
+        return userService.isDuplicate(account);
+    }
+
     @PostMapping(ApiUrl.USER_LOGIN)
     @ApiOperation(value = "유저 로그인 API")
     public UserResponse login(@ApiParam(value="로그인 요청 정보", required = true) @RequestBody UserRequest userRequest) throws Exception {

@@ -5,6 +5,7 @@ public class ApiUrl {
     public static final String USER_LOGIN = "/login";
     public static final String USER_ROOT = "/user";
     public static final String USER_GET = USER_ROOT+"/get";
+    public static final String USER_DUPLICATE_ID = USER_ROOT+"/duplicate";
 
     public static final String CERTIFICATES_ROOT = "/certificates";
     public static final String CERTIFICATES_ID = "/{id}";
