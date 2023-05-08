@@ -23,5 +23,9 @@
 ####  해당 스택을 선택한 이유
  - `Swagger` : API 자동 문서화 기능을 적용하여 인터페이스를 관리하기 위함
 
+#### ERD (Entity-Relation Diagram)
+- [임시 ERD cloud](https://www.erdcloud.com/d/L4w9vmGRRSk6oqQ4s)
+
+
 #### 개발자
  - yoonwooseong
