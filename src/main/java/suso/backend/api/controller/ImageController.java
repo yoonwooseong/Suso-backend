@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
@@ -19,7 +20,7 @@ public class ImageController {
 
     @PostMapping(ApiUrl.IMAGE_UPLOAD)
     @ApiOperation(value = "이미지 저장 API")
-    public String upload(MultipartFile file){
+    public String upload(@RequestParam("file") MultipartFile file){
         if(file == null) return "file is null";
 
         if(file.getContentType().startsWith("image") == false) return "file is not image";
