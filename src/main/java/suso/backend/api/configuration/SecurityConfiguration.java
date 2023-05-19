@@ -36,6 +36,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        // 인증 문제
         http
 
                 .httpBasic().disable()  // base64로 인코딩하여 전달하는 구조
@@ -58,15 +59,11 @@ public class SecurityConfiguration {
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), RequestCacheAwareFilter.class) // JWT 인증 필터
                 .exceptionHandling()
-                .authenticationEntryPoint(new AuthenticationEntryPoint() {
-                    // 인증 문제
-                    @Override
-                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-                        response.setStatus(401);
-                        response.setCharacterEncoding("utf-8");
-                        response.setContentType("text/html; charset=UTF-8");
-                        response.getWriter().write("인증되지 않은 사용자입니다.");
-                    }
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.setStatus(401);
+                    response.setCharacterEncoding("utf-8");
+                    response.setContentType("text/html; charset=UTF-8");
+                    response.getWriter().write("인증되지 않은 사용자입니다.");
                 })
                 .accessDeniedHandler(new AccessDeniedHandler() {
                     // 권한 문제

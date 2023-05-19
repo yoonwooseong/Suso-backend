@@ -67,9 +67,12 @@ public class CertificatesService {
 
     private List<Hashtag> saveHashtag(CertificatesDto certificatesDto){
         List<Hashtag> existTags = getExistTags(certificatesDto);
-        List<Hashtag> changedTags = getChangedTags(certificatesDto, existTags);
-        List<Hashtag> savedChangeTags = hashtagRepository.saveAll(changedTags);
+        existTags = Optional.ofNullable(existTags).orElse(new ArrayList<>());
 
+        List<Hashtag> changedTags = getChangedTags(certificatesDto, existTags);
+        changedTags = Optional.ofNullable(changedTags).orElse(new ArrayList<>());
+
+        List<Hashtag> savedChangeTags = hashtagRepository.saveAll(changedTags);
         List<Hashtag> resultHashTags = Stream.concat(existTags.stream(), savedChangeTags.stream()).collect(Collectors.toList());
 
         return resultHashTags;
@@ -83,7 +86,6 @@ public class CertificatesService {
     // insert query를 보내는 횟수 최소화
     private List<Hashtag> getChangedTags(CertificatesDto certificatesDto, List<Hashtag> existTags){
         List<String> addTags = certificatesDto.getHashtags();
-
         List<Hashtag> resultTags = addTags.stream()
                 .filter(tagName -> existTags.stream().noneMatch(tag -> tag.getTagName().equals(tagName)))
                 .map(tagName -> Hashtag.builder().tagName(tagName).build())
